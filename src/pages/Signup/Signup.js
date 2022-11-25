@@ -6,6 +6,7 @@ import Modal from '../../components/Modal/Modal';
 import Input from '../../components/Input/Input';
 import useInput from '../../hooks/use-input';
 import PageHeader from '../../components/PageHeader/PageHeader';
+import ButtonSquare from '../../UI/Button/ButtonSquare';
 
 const regularExpression = {
   email:
@@ -187,7 +188,7 @@ function Signup() {
           hasError={phoneNumHasError}
           errorMessage="잘못된양식입니다! 010-0000-0000 포함해서 입력해주세요."
         />
-        <button className={css.signupBtn}>회원가입</button>
+        <ButtonSquare>회원가입</ButtonSquare>
       </form>
     </>
   );
