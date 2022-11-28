@@ -9,6 +9,7 @@ function ButtonSquare(props) {
         props.theme === 'white' ? css.whiteTheme : ''
       } ${props.className}`}
       onClick={props.onClick}
+      disabled={props.disabled}
     >
       {props.children}
     </button>

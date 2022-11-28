@@ -13,10 +13,20 @@
 .button:active {
   background-color: rgb(90, 81, 81);
   color: white;
-  border: 1px solid rgb(90, 81, 81);
+}
+
+.button:disabled {
+  background-color: black;
+  color: white;
+  cursor: not-allowed;
 }
 
 .whiteTheme {
+  background-color: white;
+  color: black;
+}
+
+.whiteTheme:disabled {
   background-color: white;
   color: black;
 }
