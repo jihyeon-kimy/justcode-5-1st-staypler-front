@@ -1,0 +1,30 @@
+.inputbox {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-bottom: 2rem;
+}
+
+.inputbox label {
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.inputbox input {
+  font-size: 1.3rem;
+  outline: none;
+  border: 0;
+  border-bottom: 1px solid lightgray;
+  padding: 0.5rem 0;
+  margin-bottom: 0.5rem;
+}
+
+.inputbox input::placeholder {
+  font-size: 1rem;
+}
+
+.error {
+  color: red;
+  font-size: 0.9rem;
+  display: contents;
+}
