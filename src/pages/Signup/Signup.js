@@ -1,40 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import css from './Signup.module.scss';
-import { BASEURL } from '../../ApiOrigin';
-import Modal from '../../UI/Modal';
+import ButtonSquare from '../../components/UI/Button/ButtonSquare';
 import Input from '../../components/Input/Input';
-import useInput from '../../hooks/use-input';
+import Modal from '../../components/UI/Modal';
 import PageHeader from '../../components/PageHeader/PageHeader';
-import ButtonSquare from '../../UI/Button/ButtonSquare';
 import useHttp from '../../hooks/use-http';
-
-const REGULAR_EXPRESSION = {
-  email:
-    /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}/,
-  password: /^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,20})/,
-  phoneNum: /^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})/,
-};
-
-const isName = value =>
-  value.trim() !== '' && 1 < value.length && value.length < 10;
-
-const isEmail = value =>
-  value.trim() !== '' && REGULAR_EXPRESSION.email.test(value);
-
-const isPassword = value =>
-  value.trim() !== '' && REGULAR_EXPRESSION.password.test(value);
-
-const isRePassword = (Password, value) =>
-  value.trim() !== '' && Password === value;
-
-const isPhoneNum = value =>
-  value.trim() !== '' && REGULAR_EXPRESSION.phoneNum.test(value);
+import useInput, {
+  isName,
+  isEmail,
+  isPassword,
+  isRePassword,
+  isPhoneNum,
+} from '../../hooks/use-input';
+import { signUp } from '../../lib/auth-api';
+import css from './Signup.module.scss';
 
 function Signup() {
   const navigate = useNavigate();
-
   const [errorModal, setErrorModal] = useState();
+
+  const { sendRequest: fetchSignUpHandler, status, error } = useHttp(signUp);
 
   const {
     value: enteredName,
@@ -77,6 +62,7 @@ function Signup() {
   } = useInput(isPhoneNum);
 
   let formIsValid = false;
+
   if (
     nameIsValid &&
     emailIsValid &&
@@ -87,9 +73,17 @@ function Signup() {
     formIsValid = true;
   }
 
-  const { isLoading, error, sendRequest: fetchSignUpHandler } = useHttp();
+  useEffect(() => {
+    if (error !== null) {
+      setErrorModal(error);
+    }
 
-  const signUpHandler = async event => {
+    if (status === 'completed' && error === null) {
+      setErrorModal('회원가입이 완료되었습니다.');
+    }
+  }, [error, status]);
+
+  const signUpSubmitHandler = async event => {
     event.preventDefault();
 
     if (!formIsValid) {
@@ -103,28 +97,20 @@ function Signup() {
 
     if (formIsValid) {
       await fetchSignUpHandler({
-        url: `${BASEURL}/users/signup`,
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: {
-          email: enteredEmail,
-          username: enteredName,
-          password: enteredPassword,
-          phoneNumber: enteredPhoneNum,
-        },
+        email: enteredEmail,
+        username: enteredName,
+        password: enteredPassword,
+        phoneNumber: enteredPhoneNum,
       });
-
-      if (error) {
-        return setErrorModal(error);
-      }
-      setErrorModal('회원가입이 완료되었습니다.');
     }
   };
 
   const closeModalHandler = () => {
     setErrorModal(null);
+  };
+
+  const goToMain = () => {
+    navigate('/');
   };
 
   return (
@@ -133,12 +119,16 @@ function Signup() {
         <Modal
           message={errorModal}
           onClose={closeModalHandler}
-          onConfirm={() => navigate('/')}
+          onConfirm={
+            status === 'completed' && error === null
+              ? goToMain
+              : closeModalHandler
+          }
         />
       )}
       <PageHeader pageTitleEN="JOIN" pageTitleKO="회원가입" url="/signup" />
 
-      <form className={css.formwrap} onSubmit={signUpHandler}>
+      <form className={css.formwrap} onSubmit={signUpSubmitHandler}>
         <Input
           id="email"
           title="이메일"
@@ -189,9 +179,7 @@ function Signup() {
           hasError={phoneNumHasError}
           errorMessage="잘못된양식입니다! 010-0000-0000 포함해서 입력해주세요."
         />
-        <ButtonSquare theme="white" disabled={!formIsValid}>
-          회원가입
-        </ButtonSquare>
+        <ButtonSquare theme="white">회원가입</ButtonSquare>
       </form>
     </>
   );

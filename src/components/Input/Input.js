@@ -2,7 +2,7 @@ import css from './Input.module.css';
 
 function Input(props) {
   return (
-    <div className={css.inputbox}>
+    <div className={`${css.inputbox} ${props.hasError ? css.invalid : ''}`}>
       <label htmlFor={props.id}>{props.title}</label>
       <input
         name={props.id}
