@@ -1,96 +1,122 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import css from './Login.module.scss';
-import { BASEURL } from '../../ApiOrigin';
+import ButtonSquare from '../../components/UI/Button/ButtonSquare';
+import Input from '../../components/Input/Input';
 import PageHeader from '../../components/PageHeader/PageHeader';
+import Modal from '../../components/UI/Modal';
+import useHttp from '../../hooks/use-http';
+import useInput, { isEmail, isPassword } from '../../hooks/use-input';
+import { login } from '../../lib/auth-api';
+import css from './Login.module.scss';
 
 function Login() {
   const navigate = useNavigate();
-  const [inputValue, setInputValue] = useState({
-    email: '',
-    password: '',
-  });
-  const handleInput = event => {
-    const { name, value } = event.target;
-    setInputValue({
-      ...inputValue,
-      [name]: value,
-    });
-  };
-  const loginBtnHandle = event => {
+  const [errorModal, setErrorModal] = useState();
+
+  const { sendRequest: fetchloginHandler, status, error } = useHttp(login);
+
+  const {
+    value: enteredEmail,
+    isValid: emailIsValid,
+    hasError: emailHasError,
+    inputChangeHandler: emailChangeHandler,
+    inputBlurHandler: emailBlurHandler,
+  } = useInput(isEmail);
+
+  const {
+    value: enteredPassword,
+    isValid: passwordIsValid,
+    hasError: passwordHasError,
+    inputChangeHandler: passwordChangeHandler,
+    inputBlurHandler: passwordBlurHandler,
+  } = useInput(isPassword);
+
+  let formIsValid = false;
+
+  if (emailIsValid && passwordIsValid) {
+    formIsValid = true;
+  }
+
+  useEffect(() => {
+    if (error !== null) {
+      setErrorModal(error);
+    }
+
+    if (status === 'completed' && error === null) {
+      setErrorModal('로그인이 완료되었습니다.');
+    }
+  }, [error, navigate, status]);
+
+  const loginSubmitHandler = async event => {
     event.preventDefault();
-    fetch(`${BASEURL}/users/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email: inputValue.email,
-        password: inputValue.password,
-      }),
-    })
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        }
-      })
-      .then(result => {
-        if (result.token) {
-          localStorage.setItem('login-token', result.token);
-          navigate('/');
-        } else {
-          alert('아이디혹은 비밀번호가 잘못되었습니다');
-        }
+
+    if (!formIsValid) {
+      emailBlurHandler();
+      passwordBlurHandler();
+      return;
+    }
+
+    if (formIsValid) {
+      await fetchloginHandler({
+        email: enteredEmail,
+        password: enteredPassword,
       });
+    }
   };
 
-  const signUpBtnHandle = event => {
-    event.preventDefault();
+  const closeModalHandler = () => {
+    setErrorModal(null);
+  };
+
+  const goToSignUp = () => {
     navigate('/signup');
   };
 
+  const goToMain = () => {
+    navigate('/');
+  };
+
   return (
-    <div className={css.container}>
+    <>
+      {errorModal && (
+        <Modal
+          message={errorModal}
+          onClose={closeModalHandler}
+          onConfirm={
+            status === 'completed' && error === null
+              ? goToMain
+              : closeModalHandler
+          }
+        />
+      )}
       <PageHeader pageTitleEN="LOGIN" pageTitleKO="로그인" url="/login" />
-      <div className={css.wrapper}>
-        <div className={css.mainbox}>
-          <div className={css.formwrap}>
-            <div className={css.inputbox}>
-              <div className={css.title}>이메일</div>
-              <input
-                name="email"
-                type="text"
-                placeholder="이메일 아이디"
-                onChange={handleInput}
-              />
-            </div>
-            <div className={css.inputbox}>
-              <div className={css.title}>비밀번호</div>
-              <input
-                type="password"
-                name="password"
-                placeholder="비밀번호"
-                onChange={handleInput}
-              />
-            </div>
-          </div>
-          <button
-            type="button"
-            className={css.loginBtn}
-            onClick={loginBtnHandle}
-          >
-            로그인
-          </button>
-          <button
-            type="button"
-            className={css.signupBtn}
-            onClick={signUpBtnHandle}
-          >
-            회원가입
-          </button>
-        </div>
-      </div>
-    </div>
+      <form className={css.formwrap} onSubmit={loginSubmitHandler}>
+        <Input
+          id="email"
+          title="이메일"
+          placeholder="이메일을 입력해주세요."
+          value={enteredEmail}
+          onChange={emailChangeHandler}
+          onBlur={emailBlurHandler}
+          hasError={emailHasError}
+          errorMessage="잘못된양식입니다."
+        />
+        <Input
+          id="password"
+          title="비밀번호"
+          value={enteredPassword}
+          placeholder="비밀번호를 확인해주세요."
+          onChange={passwordChangeHandler}
+          onBlur={passwordBlurHandler}
+          hasError={passwordHasError}
+          errorMessage="8자이상 20자이하, 숫자, 문자, 특수문자를 포함해주세요."
+        />
+        <ButtonSquare className={css.loginBtn}>LOGIN</ButtonSquare>
+        <ButtonSquare type="button" theme="white" onClick={goToSignUp}>
+          회원가입
+        </ButtonSquare>
+      </form>
+    </>
   );
 }
 export default Login;
