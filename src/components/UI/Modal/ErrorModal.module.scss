@@ -1,0 +1,24 @@
+.modal {
+  width: 30rem;
+  height: 20rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 3rem;
+}
+
+.closeBtn {
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.message {
+  width: 100%;
+  font-size: 1rem;
+  color: #181818;
+  text-align: center;
+  border-top: 1px solid #e5e5e5;
+  border-bottom: 1px solid #e5e5e5;
+  padding: 3rem 0;
+}
