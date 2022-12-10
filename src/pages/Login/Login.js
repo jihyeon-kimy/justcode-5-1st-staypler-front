@@ -1,19 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ButtonSquare from '../../components/UI/Button/ButtonSquare';
 import Input from '../../components/Input/Input';
 import PageHeader from '../../components/PageHeader/PageHeader';
-import Modal from '../../components/UI/Modal';
 import useHttp from '../../hooks/use-http';
 import useInput, { isEmail, isPassword } from '../../hooks/use-input';
 import { login } from '../../lib/auth-api';
 import css from './Login.module.scss';
+import ErrorModal from '../../components/UI/Modal/ErrorModal';
+import AuthContext from '../../store/auth-context';
 
 function Login() {
   const navigate = useNavigate();
+  const authCtx = useContext(AuthContext);
   const [errorModal, setErrorModal] = useState();
 
-  const { sendRequest: fetchloginHandler, status, error } = useHttp(login);
+  const {
+    sendRequest: fetchloginHandler,
+    status,
+    error,
+    data,
+  } = useHttp(login);
 
   const {
     value: enteredEmail,
@@ -43,9 +50,11 @@ function Login() {
     }
 
     if (status === 'completed' && error === null) {
+      authCtx.onLogin(data.token);
       setErrorModal('로그인이 완료되었습니다.');
+      navigate('/', { replace: true });
     }
-  }, [error, navigate, status]);
+  }, [authCtx, data, error, navigate, status]);
 
   const loginSubmitHandler = async event => {
     event.preventDefault();
@@ -79,7 +88,7 @@ function Login() {
   return (
     <>
       {errorModal && (
-        <Modal
+        <ErrorModal
           message={errorModal}
           onClose={closeModalHandler}
           onConfirm={

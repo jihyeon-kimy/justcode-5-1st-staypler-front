@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ButtonSquare from '../../components/UI/Button/ButtonSquare';
 import Input from '../../components/Input/Input';
-import Modal from '../../components/UI/Modal';
 import PageHeader from '../../components/PageHeader/PageHeader';
 import useHttp from '../../hooks/use-http';
 import useInput, {
@@ -14,6 +13,7 @@ import useInput, {
 } from '../../hooks/use-input';
 import { signUp } from '../../lib/auth-api';
 import css from './Signup.module.scss';
+import ErrorModal from '../../components/UI/Modal/ErrorModal';
 
 function Signup() {
   const navigate = useNavigate();
@@ -116,7 +116,7 @@ function Signup() {
   return (
     <>
       {errorModal && (
-        <Modal
+        <ErrorModal
           message={errorModal}
           onClose={closeModalHandler}
           onConfirm={
