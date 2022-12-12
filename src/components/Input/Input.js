@@ -1,4 +1,4 @@
-import css from './Input.module.css';
+import css from './Input.module.scss';
 
 function Input(props) {
   return (
