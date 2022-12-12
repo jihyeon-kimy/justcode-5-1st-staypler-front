@@ -1,0 +1,177 @@
+.header {
+  width: 100%;
+  max-width: 1800px;
+  height: 5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  padding: 0 5%;
+  z-index: 10;
+  background-color: white;
+  border-bottom: 1px solid gainsboro;
+}
+
+.logo img {
+  width: 5rem;
+  object-fit: contain;
+}
+
+.search {
+  position: relative;
+  left: 10%;
+}
+
+.search button {
+  padding: 0 1.5rem;
+  font-size: 1rem;
+  font-family: 'Lato', 'Noto Sans KR', 'Abel';
+  cursor: pointer;
+
+  * {
+    display: inline-block;
+  }
+
+  svg {
+    position: relative;
+    top: 0.2rem;
+    margin-right: 0.5rem;
+    font-size: 1.3rem;
+  }
+
+  &:last-child {
+    border-left: 1px solid black;
+  }
+}
+
+.nav ul {
+  display: flex;
+  align-items: stretch;
+}
+
+.nav li {
+  display: flex;
+  align-items: center;
+  margin-left: 1.5rem;
+}
+
+.nav a,
+.nav button {
+  padding: 0.4rem 0;
+  text-decoration: none;
+  color: black;
+  font-size: 1rem;
+  font-family: 'Lato', 'Noto Sans KR', 'Abel';
+  font-weight: 600;
+  border-bottom: 0.2rem solid transparent;
+  cursor: pointer;
+}
+
+.findstay-icon,
+.mypage-icon {
+  display: none;
+}
+
+.nav .active {
+  border-bottom: 0.2rem solid black;
+}
+
+.auth {
+  padding-left: 1rem;
+  border-left: 1px solid rgb(147, 145, 145);
+
+  a,
+  button {
+    color: rgb(147, 145, 145);
+
+    * {
+      display: inline-block;
+    }
+
+    svg {
+      color: rgb(147, 145, 145);
+      position: relative;
+      top: 0.1rem;
+      margin-right: 0.2rem;
+    }
+  }
+}
+
+@media (max-width: 1199px) {
+  .header {
+    padding: 0;
+  }
+
+  .search {
+    left: 0;
+  }
+
+  .nav {
+    z-index: 20;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    background-color: #f8f8f8;
+
+    ul {
+      justify-content: space-around;
+      align-items: center;
+    }
+
+    li {
+      margin: 0;
+    }
+
+    a,
+    button {
+      font-size: 0.7rem;
+    }
+  }
+
+  .findstay-icon,
+  .mypage-icon {
+    display: block;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0.5rem 0;
+    font-size: 1.7rem;
+  }
+
+  .auth {
+    border-left: none;
+
+    svg {
+      display: block;
+      position: relative;
+      left: 50%;
+      transform: translateX(-50%);
+      margin: 0.5rem 0;
+      font-size: 2.1rem;
+      margin: 0;
+    }
+  }
+}
+
+@media (max-width: 767px) {
+}
+
+@media (max-width: 575px) {
+  .search button {
+    p {
+      display: none;
+    }
+
+    svg {
+      position: relative;
+      top: 0.2rem;
+      margin-right: 0;
+      font-size: 1.5rem;
+    }
+
+    &:last-child {
+      border-left: 1px solid black;
+    }
+  }
+}
