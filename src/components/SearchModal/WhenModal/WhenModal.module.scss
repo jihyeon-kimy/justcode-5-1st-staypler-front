@@ -1,0 +1,20 @@
+// .calendarWrapper {
+//   display: flex;
+//   justify-content: center;
+//   margin: 0 100px;
+//   position: relative;
+// }
+
+.prevBtn {
+  position: absolute;
+  top: 50%;
+  left: 2%;
+  cursor: pointer;
+}
+
+.nextBtn {
+  position: absolute;
+  top: 50%;
+  right: 2%;
+  cursor: pointer;
+}

@@ -1,0 +1,58 @@
+.search {
+  position: relative;
+  width: 80%;
+  min-width: 20rem;
+  margin: 3rem auto;
+  border: none;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 30px;
+  padding: 20px;
+
+  svg {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  input {
+    width: 95%;
+    margin-left: 5%;
+    border: none;
+    background: transparent;
+    font-size: 1rem;
+
+    &:focus {
+      outline: none;
+    }
+
+    &::placeholder {
+      color: rgba(0, 0, 0, 0.3);
+    }
+  }
+}
+
+.tagsTitle {
+  text-align: center;
+  font-weight: 600;
+  font-size: 1.5rem;
+  margin: 2rem 0;
+}
+
+.tags {
+  width: 100%;
+  text-align: center;
+  margin: 1rem 0;
+
+  li {
+    display: inline-block;
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+  }
+
+  .selected {
+    background: black;
+    color: whitesmoke;
+    border-radius: 30px;
+    box-shadow: 6px 7px 15px 0 rgb(0 0 0 / 30%);
+  }
+}

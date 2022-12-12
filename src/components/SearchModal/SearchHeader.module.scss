@@ -1,0 +1,16 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 3rem 0;
+
+  h3 {
+    font-weight: 600;
+    font-size: 2rem;
+  }
+
+  svg {
+    font-size: 2rem;
+    cursor: pointer;
+  }
+}

@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import moment from 'moment';
 import css from './CheckInOut.module.scss';
 function CheckInOut({
   stateMoment,
-  checkIn,
-  checkOut,
+  checkIn: checkInDay,
+  checkOut: checkOutDay,
   onCheck,
   tempoCheckOut,
   onHover,
@@ -25,11 +25,16 @@ function CheckInOut({
     nextMonth.clone().endOf('month').week() === 1
       ? 53
       : nextMonth.clone().endOf('month').week();
-  const checkInDay = checkIn;
-  const checkOutDay = checkOut;
+
   const tempoCheckOutDay = tempoCheckOut;
-  setStartDate(checkInDay);
-  setEndDate(checkOutDay);
+
+  useEffect(() => {
+    setStartDate(checkInDay);
+  }, [checkInDay]);
+
+  useEffect(() => {
+    setEndDate(checkOutDay);
+  }, [checkOutDay]);
 
   //특정 날짜마다 어떤 조건에 해당하는지 판단-> 조건에 맞는 className 주기
   const CalendarArr = (today, firstWeek, lastWeek) => {
@@ -48,17 +53,17 @@ function CheckInOut({
                 .startOf('week')
                 .add(index, 'day');
               if (days.format('MM') !== today.format('MM')) {
-                return <td />;
+                return <td key={index} />;
               } else if (days.format('YYYY-MM-DD') === checkInDay) {
                 return (
                   <td
+                    key={index}
                     className={css.checkInDay}
                     onMouseEnter={() => onHover(days.format('YYYY-MM-DD'))}
                     onMouseLeave={onHoverReset}
                     onClick={() => {
                       onCheck(days.format('YYYY-MM-DD'));
                     }}
-                    key={index}
                   >
                     <span>{days.format('D')}</span>
                   </td>

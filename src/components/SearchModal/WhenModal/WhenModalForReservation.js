@@ -1,12 +1,19 @@
 import React, { useState } from 'react';
 import css from './WhenModal.module.scss';
 import { AiOutlineClose, AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
-import BlackButton from '../BlackButton/BlackButton';
+import BlackButton from '../../BlackButton/BlackButton';
 import moment from 'moment';
-import CheckInOut from '../Calendar/CheckInOut';
-import { Link } from 'react-router-dom';
+import CheckInOut from '../../Calendar/CheckInOut';
+import { BASEURL } from '../../../ApiOrigin';
 
-function WhenModal({ modalRef, closeModal }) {
+function WhenModal({
+  modalRef,
+  closeModal,
+  roomid,
+  setPrice,
+  setStart,
+  setEnd,
+}) {
   const [stateMoment, setStateMoment] = useState(moment());
   const prev = () => {
     setStateMoment(stateMoment.clone().subtract(1, 'month'));
@@ -21,17 +28,6 @@ function WhenModal({ modalRef, closeModal }) {
 
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
-
-  let params = {
-    start_date: startDate,
-    end_date: endDate,
-  };
-
-  let query = Object.keys(params)
-    .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
-    .join('&');
-
-  let link = '/findstay?' + query;
 
   const checked = checkedDay => {
     if (!checkIn) {
@@ -57,9 +53,12 @@ function WhenModal({ modalRef, closeModal }) {
   };
 
   const reset = () => {
+    Payment();
     setCheckIn(null);
     setCheckOut(null);
     setStateMoment(moment());
+    setStart(startDate);
+    setEnd(endDate);
   };
 
   const onHover = day => {
@@ -72,11 +71,39 @@ function WhenModal({ modalRef, closeModal }) {
     setTempoCheckOut(null);
   };
 
+  let params = {
+    start_date: startDate,
+    end_date: endDate,
+  };
+
+  let query = Object.keys(params)
+    .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
+    .join('&');
+
+  function Payment() {
+    fetch(`${BASEURL}/rooms/${roomid}/room?${query}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('login-token')}`,
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    })
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+      })
+      .then(fetchdata => {
+        setPrice(fetchdata.data[0].total_price);
+      });
+  }
+
   return (
     <div className={css.modalWrapper} ref={modalRef}>
       <div>
         <div className={css.modal}>
-          <div clssName={css.titleWrapper}>
+          <div className={css.titleWrapper}>
             <div className={css.modalTitle}>
               <p className={css.whenText}>언제떠날까요?</p>
               <AiOutlineClose
@@ -105,8 +132,7 @@ function WhenModal({ modalRef, closeModal }) {
             <AiOutlineLeft size="22" className={css.prevBtn} onClick={prev} />
             <AiOutlineRight size="22" className={css.nextBtn} onClick={next} />
           </div>
-          <Link
-            to={link}
+          <div
             className={css.btnWrapper}
             onClick={() => {
               closeModal();
@@ -115,9 +141,9 @@ function WhenModal({ modalRef, closeModal }) {
           >
             <BlackButton
               className={css.searchBtn}
-              content="search &nbsp; &nbsp; →"
+              content="날짜선택 &nbsp; &nbsp; →"
             />
-          </Link>
+          </div>
         </div>
       </div>
     </div>
