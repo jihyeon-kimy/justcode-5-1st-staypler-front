@@ -1,0 +1,24 @@
+.spinner {
+  display: inline-block;
+  width: 4rem;
+  height: 4rem;
+}
+.spinner:after {
+  content: ' ';
+  display: block;
+  width: 3rem;
+  height: 3rem;
+  margin: 0.5rem;
+  border-radius: 50%;
+  border: 0.3rem solid rgb(47, 47, 47);
+  border-color: rgb(47, 47, 47) transparent rgb(47, 47, 47) transparent;
+  animation: spinner 1.2s linear infinite;
+}
+@keyframes spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
