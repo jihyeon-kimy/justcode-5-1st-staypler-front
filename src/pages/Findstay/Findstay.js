@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
 import css from './Findstay.module.scss';
-import Feed from './Feed.js';
 import PageHeader from '../../components/PageHeader/PageHeader';
 import { useLocation } from 'react-router-dom';
 import Filter from './Filter/Filter';
@@ -9,6 +8,8 @@ import AuthContext from '../../store/auth-context';
 import useHttp from '../../hooks/use-http';
 import { rooms } from '../../lib/room-api';
 import LoadingSpinner from '../../components/UI/LoadingSpinner/LoadingSpinner';
+import Pagination from '../../components/UI/Pagination/Pagination';
+import RoomList from '../../components/Rooms/RoomList';
 
 function Findstay() {
   const location = useLocation();
@@ -66,33 +67,17 @@ function Findstay() {
 
   // 4. 로딩을 성공적으로 마친 경우
   if (status === 'completed' && loadedRooms?.data.length > 0) {
-    loadedRoomList = loadedRooms?.data.map(feed => {
-      return (
-        <Feed
-          key={feed.id}
-          id={feed.id}
-          roomName={feed.title}
-          roomType={feed.type}
-          province={feed.province}
-          images={feed.images[0]}
-          city={feed.city}
-          maxPrice={feed.max_price}
-          minPrice={feed.min_price}
-          maxLimit={feed.max_limit}
-          minLimit={feed.min_limit}
-          isLike={feed.isLike}
-        />
-      );
-    });
+    loadedRoomList = <RoomList loadedRooms={loadedRooms?.data} />;
   }
 
   return (
-    <div className={css.container}>
+    <div className={css.findstay}>
       <PageHeader
         pageTitleEN="FIND STAY"
         pageTitleKO="머무는 것 자체로 여행이 되는 공간"
         url="/findstay"
       />
+
       <Filter />
       <Order />
 
