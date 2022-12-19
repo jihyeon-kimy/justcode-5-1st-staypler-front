@@ -74,18 +74,6 @@
       }
     }
   }
-
-  .pagenationWrapper {
-    display: flex;
-    justify-content: center;
-    cursor: pointer;
-    margin-bottom: 20px;
-    .pageNumber {
-      margin-right: 10px;
-      font-size: 20px;
-      color: darkgray;
-    }
-  }
 }
 
 .centered {

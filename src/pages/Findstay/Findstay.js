@@ -8,7 +8,6 @@ import AuthContext from '../../store/auth-context';
 import useHttp from '../../hooks/use-http';
 import { rooms } from '../../lib/room-api';
 import LoadingSpinner from '../../components/UI/LoadingSpinner/LoadingSpinner';
-import Pagination from '../../components/UI/Pagination/Pagination';
 import RoomList from '../../components/Rooms/RoomList';
 
 function Findstay() {
@@ -21,13 +20,6 @@ function Findstay() {
     data: loadedRooms,
     error,
   } = useHttp(rooms);
-
-  let [pageBtnNum, setPageBtnNum] = useState(1);
-
-  const pageNumber = [];
-  for (let i = 1; i <= loadedRooms?.maxPage; i++) {
-    pageNumber.push(i);
-  }
 
   useEffect(() => {
     fetchRoomsInfoHandler(location.search, authCtx.token);
@@ -67,7 +59,12 @@ function Findstay() {
 
   // 4. 로딩을 성공적으로 마친 경우
   if (status === 'completed' && loadedRooms?.data.length > 0) {
-    loadedRoomList = <RoomList loadedRooms={loadedRooms?.data} />;
+    loadedRoomList = (
+      <RoomList
+        loadedRooms={loadedRooms?.data}
+        maxPage={loadedRooms?.maxPage}
+      />
+    );
   }
 
   return (
@@ -82,22 +79,6 @@ function Findstay() {
       <Order />
 
       {loadedRoomList}
-
-      <div className={css.pagenationWrapper}>
-        {pageNumber.map(num => {
-          return (
-            <div
-              className={css.pageNumber}
-              key={num}
-              onClick={() => {
-                setPageBtnNum(num);
-              }}
-            >
-              {num}
-            </div>
-          );
-        })}
-      </div>
     </div>
   );
 }
