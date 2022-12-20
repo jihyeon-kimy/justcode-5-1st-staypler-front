@@ -1,0 +1,16 @@
+.room-list {
+  width: 104%;
+  position: relative;
+  right: 4%;
+  display: flex;
+  flex-wrap: wrap;
+  padding-bottom: 5rem;
+  border-bottom: 1px solid rgb(203, 201, 201);
+}
+
+@media (max-width: 820px) {
+  .room-list {
+    width: 100%;
+    right: 0;
+  }
+}

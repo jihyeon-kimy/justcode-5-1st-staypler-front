@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import moment from 'moment';
-import css from './CheckInOut.module.scss';
-function CheckInOut({
+import css from './Calendar.module.scss';
+function Calendar({
   stateMoment,
   checkIn: checkInDay,
   checkOut: checkOutDay,
@@ -190,4 +190,4 @@ function CheckInOut({
     </div>
   );
 }
-export default CheckInOut;
+export default Calendar;

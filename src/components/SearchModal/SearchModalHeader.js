@@ -1,6 +1,5 @@
-import { AiOutlineClose } from 'react-icons/ai';
 import { TfiClose } from 'react-icons/tfi';
-import css from './SearchHeader.module.scss';
+import css from './SearchModalHeader.module.scss';
 
 function SearchHeader(props) {
   return (

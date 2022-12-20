@@ -1,0 +1,40 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 3rem 0;
+  color: darkgray;
+
+  svg {
+    margin: 0 1rem;
+    font-size: 1.3rem;
+    cursor: pointer;
+    transition: color 200ms ease-in-out;
+
+    &:hover,
+    &:focus,
+    &:active {
+      color: black;
+    }
+  }
+}
+
+.pages {
+  * {
+    display: inline-block;
+  }
+}
+
+.page {
+  margin: 0 0.5rem;
+  font-size: 1.2rem;
+  color: darkgray;
+  cursor: pointer;
+  transition: color 200ms ease-in-out;
+
+  &:hover,
+  &:active,
+  &.isActive {
+    color: black;
+  }
+}

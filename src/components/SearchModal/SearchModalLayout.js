@@ -1,7 +1,7 @@
 import ButtonRound from '../UI/Button/ButtonRound';
 import Card from '../UI/Card/Card';
 import ModalLayout from '../UI/Modal/ModalLayout';
-import SearchHeader from './SearchHeader';
+import SearchHeader from './SearchModalHeader';
 import css from './SearchModalLayout.module.scss';
 
 function SearchModalLayout(props) {
