@@ -3,7 +3,7 @@ import css from './WhenModal.module.scss';
 import { AiOutlineClose, AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
 import BlackButton from '../../BlackButton/BlackButton';
 import moment from 'moment';
-import CheckInOut from '../../Calendar/CheckInOut';
+import Calendar from '../Calendar/Calendar';
 import { BASEURL } from '../../../ApiOrigin';
 
 function WhenModal({
@@ -118,7 +118,7 @@ function WhenModal({
             </div>
           </div>
           <div className={css.calendarWrapper}>
-            <CheckInOut
+            <Calendar
               stateMoment={stateMoment}
               checkIn={checkIn}
               checkOut={checkOut}

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import css from './WhenModal.module.scss';
 import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
 import moment from 'moment';
-import CheckInOut from '../../Calendar/CheckInOut';
+import Calendar from '../Calendar/Calendar';
 import { useNavigate } from 'react-router-dom';
 import SearchModalLayout from '../SearchModalLayout';
 
@@ -79,7 +79,7 @@ function WhenModal({ onClose }) {
       onSearch={searchDateHandler}
     >
       <div className={css.calendarWrapper}>
-        <CheckInOut
+        <Calendar
           stateMoment={stateMoment}
           checkIn={checkIn}
           checkOut={checkOut}
