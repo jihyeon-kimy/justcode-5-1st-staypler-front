@@ -9,11 +9,11 @@ import {
 } from '../../Filter/Filter';
 import { AiOutlineClose } from 'react-icons/ai';
 const TYPE_DATA = [
-  { id: 1, type: '게스트하우스', name: '게스트하우스' },
-  { id: 2, type: '호텔', name: '호텔' },
-  { id: 3, type: '민박', name: '민박' },
-  { id: 4, type: '펜션', name: '펜션' },
-  { id: 5, type: '모텔', name: '모텔' },
+  { id: 1, type: '게스트하우스', name: 'Guest_house' },
+  { id: 2, type: '호텔', name: 'Hotel' },
+  { id: 3, type: '민박', name: 'Bed_Breakfast' },
+  { id: 4, type: '펜션', name: 'Pension' },
+  { id: 5, type: '모텔', name: 'Motel' },
 ];
 export default function SelectType({ closeHandler }) {
   const [selectedType, setSelectedType] = useState(
