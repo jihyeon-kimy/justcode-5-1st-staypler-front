@@ -1,15 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { AiOutlineClose } from 'react-icons/ai';
-import { useLocation } from 'react-router-dom';
-import {
-  ModalApplyBtn,
-  ModalApplyBtnWrapper,
-  ModalTitle,
-  ModalBox,
-  CheckList,
-} from '../../Filter/Filter';
-const THEME_DATA = [
+import React, { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import CheckList from '../CheckList/CheckList';
+import FilterItem from '../FilterItem';
+import SelectModal from '../SelectModal/SelectModal';
+
+const THEME_LIST = [
   { id: 1, type: '사색', name: '사색' },
   { id: 2, type: '갤러리', name: '갤러리' },
   { id: 3, type: '노천탕', name: '노천탕' },
@@ -21,68 +16,49 @@ const THEME_DATA = [
   { id: 9, type: '오션뷰', name: '오션뷰' },
   { id: 10, type: '풀빌라', name: '풀빌라' },
 ];
-export default function SelectTheme({ closeHandler }) {
-  const [selectedTheme, setSelectedTheme] = useState(
-    Array(THEME_DATA.length).fill(false)
-  );
-  const handleChange = e => {
-    const { name } = e.target;
-    setSelectedTheme(current => ({ ...current, [name]: !current[name] }));
-  };
+
+function SelectTheme() {
   const location = useLocation();
-  let [newQuery, setNewQuery] = useState();
-  const keys = Object.keys(selectedTheme);
-  const themes = [];
-  for (let i = 0; i < keys.length; i++) {
-    selectedTheme[keys[i]] === true && themes.push(keys[i]);
-  }
-  useEffect(() => {
-    function makeNewQuery() {
-      let query = location.search;
-      if (query === '') {
-        return '';
-      } else if (query.includes('theme')) {
-        let queryToArray = query.substring(1).split('&');
-        let sortIndex = queryToArray.findIndex(element =>
-          element.includes('theme')
-        );
-        queryToArray.splice(sortIndex, 1);
-        let ModifiedQuery = queryToArray.join('&') + '&';
-        return ModifiedQuery !== '&' ? ModifiedQuery : '';
-      } else {
-        return query.substring(1) + '&';
-      }
-    }
-    setNewQuery(makeNewQuery());
-  }, [location]);
+  const queryParams = new URLSearchParams(location.search);
+  const navigate = useNavigate();
+  const [visibleCheckBox, setVisibleCheckBox] = useState(false);
+
+  const toggleCheckboxHandler = () => {
+    setVisibleCheckBox(prev => !prev);
+  };
+
+  const closeCheckboxHandler = () => {
+    setVisibleCheckBox(false);
+  };
+
+  const submitHandler = event => {
+    event.preventDefault();
+
+    const checkedValues = Array.from(event.target.theme)
+      .filter(el => el.checked === true)
+      .map(el => el.id)
+      .toString();
+
+    queryParams.set('theme', checkedValues);
+    navigate(`?${queryParams.toString()}`);
+    closeCheckboxHandler();
+  };
+
   return (
-    <ModalBox>
-      <ModalTitle>
-        테마
-        <AiOutlineClose onClick={closeHandler} />
-      </ModalTitle>
-      <ModalApplyBtnWrapper>
-        <Link to={`/findstay?${newQuery}theme=${themes.join()}`}>
-          <ModalApplyBtn onClick={closeHandler}>적용하기</ModalApplyBtn>
-        </Link>
-      </ModalApplyBtnWrapper>
-      <CheckList>
-        {THEME_DATA.map((item, idx) => {
-          return (
-            <li key={idx}>
-              <label onChange={handleChange} name={item.name}>
-                <span>{item.type}</span>
-                <input
-                  type="checkbox"
-                  value="space"
-                  name={item.name}
-                  checked={selectedTheme[item.name]}
-                />
-              </label>
-            </li>
-          );
-        })}
-      </CheckList>
-    </ModalBox>
+    <div>
+      <FilterItem onClick={toggleCheckboxHandler}>테마</FilterItem>
+
+      {visibleCheckBox && (
+        <SelectModal header="테마" onClose={closeCheckboxHandler} type="theme">
+          <CheckList
+            checkList={THEME_LIST}
+            type="theme"
+            onSubmit={submitHandler}
+          />
+        </SelectModal>
+      )}
+    </div>
   );
 }
+
+export default SelectTheme;

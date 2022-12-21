@@ -1,31 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import { BASEURL } from '../../../ApiOrigin';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import SelectPeople from './SelectPeople/SelectPeople';
 import SelectType from './SelectType/SelectType';
 import SelectTheme from './SelectTheme/SelectTheme';
 import SelectPrice from './SelectPrice/SelectPrice';
-export default function Filter() {
-  const [rooms, setRooms] = useState([]);
 
+function Filter() {
   const [countPeopleTitle, setCountPeopleTitle] = useState('인원');
   const [priceTitle, setPriceTitle] = useState('가격 범위');
-  const [typeTitle, setTypeTitle] = useState('스테이 유형');
-  const [themeTitle, setThemeTitle] = useState('테마');
 
-  const location = useLocation();
   const [currentID, setCurrentID] = useState();
-  useEffect(() => {
-    fetch(`${BASEURL}/findstay${location.search}`)
-      .then(res => res.json())
-      .then(res => setRooms(res.data));
-  }, [location.search]);
-  useEffect(() => {
-    fetch(`${BASEURL}/findstay`)
-      .then(res => res.json())
-      .then(res => setRooms(res.data));
-  }, []);
 
   const clickHandler = id => {
     setCurrentID(id);
@@ -33,6 +17,7 @@ export default function Filter() {
   const closeHandler = () => {
     setCurrentID(false);
   };
+
   return (
     <FilterContainer>
       <RowFilterLine>
@@ -89,30 +74,8 @@ export default function Filter() {
             )}
           </ModalBtnLayer>
         </div>
-        <div>
-          <ModalBtnLayer>
-            <ModalBtn onClick={() => clickHandler(2)}>{typeTitle}</ModalBtn>
-            {currentID === 2 && (
-              <SelectType
-                closeHandler={closeHandler}
-                setThemeTitle={setTypeTitle}
-                typeTitle={typeTitle}
-              />
-            )}
-          </ModalBtnLayer>
-        </div>
-        <div>
-          <ModalBtnLayer>
-            <ModalBtn onClick={() => clickHandler(3)}>{themeTitle}</ModalBtn>
-            {currentID === 3 && (
-              <SelectTheme
-                closeHandler={closeHandler}
-                setThemeTitle={setThemeTitle}
-                themeTitle={themeTitle}
-              />
-            )}
-          </ModalBtnLayer>
-        </div>
+        <SelectType />
+        <SelectTheme />
       </RowFilterLine>
       <SearchBtnWrapper>
         <SearchBtn>SEARCH</SearchBtn>
@@ -120,11 +83,14 @@ export default function Filter() {
     </FilterContainer>
   );
 }
+
+export default Filter;
+
 const FilterContainer = styled.div`
   margin: 0 auto;
   border-top: 3px solid #000;
   position: relative;
-  z-index: 20;
+  /* z-index: 20; */
 `;
 const Keyword = styled.div``;
 const Title = styled.span`
@@ -170,7 +136,7 @@ const CheckInOut = styled.div`
 `;
 const CheckInTitle = styled.span`
   position: absolute;
-  z-index: 10;
+  /* z-index: 10; */
   bottom: 10px;
   font-weight: 700;
   font-size: 14px;
@@ -178,7 +144,7 @@ const CheckInTitle = styled.span`
 `;
 const CheckOutTitle = styled.span`
   position: absolute;
-  z-index: 10;
+  /* z-index: 10; */
   bottom: 10px;
   right: 208px;
   font-weight: 700;
@@ -225,6 +191,7 @@ const RowFilterLine = styled.div`
   display: flex;
   align-items: center;
   height: 60px;
+
   border-bottom: 1px solid #e6e6e6;
 `;
 const ModalBtnLayer = styled.div`
@@ -239,7 +206,7 @@ const ModalBtn = styled.button`
   background-size: 20px 20px;
   width: 200px;
   padding: 0 23px 0 12px;
-  margin-right: 8px;
+  margin-right: 0.5rem;
   border: 1px solid #e4e4e4;
   border-radius: 5px;
   line-height: 36px;
@@ -281,7 +248,7 @@ export const ModalBox = styled.div`
   border: 1px solid #e4e4e4;
   border-radius: 5px;
   line-height: 1;
-  z-index: 10;
+  /* z-index: 10; */
 `;
 export const ModalApplyBtnWrapper = styled.div`
   display: flex;

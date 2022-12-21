@@ -1,83 +1,63 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import {
-  ModalApplyBtn,
-  ModalApplyBtnWrapper,
-  ModalTitle,
-  ModalBox,
-  CheckList,
-} from '../../Filter/Filter';
-import { AiOutlineClose } from 'react-icons/ai';
-const TYPE_DATA = [
+import React, { useState } from 'react';
+import SelectModal from '../SelectModal/SelectModal';
+import CheckList from '../CheckList/CheckList';
+import FilterItem from '../FilterItem';
+import { useLocation, useNavigate } from 'react-router-dom';
+
+const ROOM_TYPE_LIST = [
   { id: 1, type: '게스트하우스', name: 'Guest_house' },
   { id: 2, type: '호텔', name: 'Hotel' },
   { id: 3, type: '민박', name: 'Bed_Breakfast' },
   { id: 4, type: '펜션', name: 'Pension' },
   { id: 5, type: '모텔', name: 'Motel' },
 ];
-export default function SelectType({ closeHandler }) {
-  const [selectedType, setSelectedType] = useState(
-    Array(TYPE_DATA.length).fill(false)
-  );
-  const handleChange = e => {
-    const { name } = e.target;
-    setSelectedType(current => ({ ...current, [name]: !current[name] }));
-  };
+
+function SelectType() {
   const location = useLocation();
-  let [newQuery, setNewQuery] = useState();
-  const keys = Object.keys(selectedType);
-  const types = [];
-  for (let i = 0; i < keys.length; i++) {
-    selectedType[keys[i]] === true && types.push(keys[i]);
-  }
-  useEffect(() => {
-    function makeNewQuery() {
-      let query = location.search;
-      if (query === '') {
-        return '';
-      } else if (query.includes('type')) {
-        let queryToArray = query.substring(1).split('&');
-        let sortIndex = queryToArray.findIndex(element =>
-          element.includes('type')
-        );
-        queryToArray.splice(sortIndex, 1);
-        let ModifiedQuery = queryToArray.join('&') + '&';
-        return ModifiedQuery !== '&' ? ModifiedQuery : '';
-      } else {
-        return query.substring(1) + '&';
-      }
-    }
-    setNewQuery(makeNewQuery());
-  }, [location]);
+  const queryParams = new URLSearchParams(location.search);
+  const navigate = useNavigate();
+  const [visibleCheckBox, setVisibleCheckBox] = useState(false);
+
+  const toggleCheckboxHandler = () => {
+    setVisibleCheckBox(prev => !prev);
+  };
+
+  const closeCheckboxHandler = () => {
+    setVisibleCheckBox(false);
+  };
+
+  const submitHandler = event => {
+    event.preventDefault();
+
+    const checkedValues = Array.from(event.target.type)
+      .filter(el => el.checked === true)
+      .map(el => el.id)
+      .toString();
+
+    queryParams.set('type', checkedValues);
+    navigate(`?${queryParams.toString()}`);
+    closeCheckboxHandler();
+  };
 
   return (
-    <ModalBox>
-      <ModalTitle>
-        스테이 유형
-        <AiOutlineClose onClick={closeHandler} />
-      </ModalTitle>
-      <ModalApplyBtnWrapper>
-        <Link to={`/findstay?${newQuery}type=${types.join()}`}>
-          <ModalApplyBtn onClick={closeHandler}>적용하기</ModalApplyBtn>
-        </Link>
-      </ModalApplyBtnWrapper>
-      <CheckList>
-        {TYPE_DATA.map((item, idx) => {
-          return (
-            <li key={idx}>
-              <label onChange={handleChange} name={item.name}>
-                <span>{item.type}</span>
-                <input
-                  type="checkbox"
-                  value="space"
-                  name={item.name}
-                  checked={selectedType[item.name]}
-                />
-              </label>
-            </li>
-          );
-        })}
-      </CheckList>
-    </ModalBox>
+    <div>
+      <FilterItem onClick={toggleCheckboxHandler}>스테이 유형</FilterItem>
+
+      {visibleCheckBox && (
+        <SelectModal
+          header="스테이 유형"
+          onClose={closeCheckboxHandler}
+          type="type"
+        >
+          <CheckList
+            checkList={ROOM_TYPE_LIST}
+            type="type"
+            onSubmit={submitHandler}
+          />
+        </SelectModal>
+      )}
+    </div>
   );
 }
+
+export default SelectType;
