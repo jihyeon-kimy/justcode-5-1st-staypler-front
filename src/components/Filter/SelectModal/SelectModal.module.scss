@@ -1,0 +1,30 @@
+.modal {
+  position: absolute;
+  margin-top: 1rem;
+  padding: 1.5rem;
+  z-index: 5;
+  background-color: white;
+  border: 1px solid #e4e4e4;
+  border-radius: 5px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+
+  h5 {
+    font-size: 1.1rem;
+  }
+
+  svg {
+    font-size: 1.3rem;
+    cursor: pointer;
+  }
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 0.4rem;
+  box-shadow: none;
+}
