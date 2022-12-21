@@ -1,0 +1,22 @@
+.check-list {
+  margin: 1em 0 0.5rem;
+}
+
+.item {
+  position: relative;
+  text-align: center;
+  padding: 0.5rem 2.5em;
+
+  label {
+    font-size: 0.9rem;
+    display: inline-block;
+    white-space: nowrap;
+    font-weight: 300;
+  }
+
+  input {
+    position: absolute;
+    right: 0;
+    cursor: pointer;
+  }
+}
