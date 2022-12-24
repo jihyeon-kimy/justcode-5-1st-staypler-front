@@ -49,7 +49,12 @@ function SelectTheme() {
       <FilterItem onClick={toggleCheckboxHandler}>테마</FilterItem>
 
       {visibleCheckBox && (
-        <SelectModal header="테마" onClose={closeCheckboxHandler} type="theme">
+        <SelectModal
+          header="테마"
+          onClose={closeCheckboxHandler}
+          type="theme"
+          submitBtn="top"
+        >
           <CheckList
             checkList={THEME_LIST}
             type="theme"

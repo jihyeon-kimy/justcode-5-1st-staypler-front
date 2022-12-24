@@ -9,14 +9,25 @@ function SelectModal(props) {
         <h5>{props.header}</h5>
         <TfiClose onClick={props.onClose} />
       </div>
-      <ButtonRound
-        type="submit"
-        className={css['submit-btn']}
-        form={props.type}
-      >
-        적용하기
-      </ButtonRound>
+      {props.submitBtn === 'top' && (
+        <ButtonRound
+          type="submit"
+          className={css['submit-btn']}
+          form={props.type}
+        >
+          적용하기
+        </ButtonRound>
+      )}
       {props.children}
+      {props.submitBtn === 'bottom' && (
+        <ButtonRound
+          type="submit"
+          className={css['submit-btn']}
+          form={props.type}
+        >
+          적용하기
+        </ButtonRound>
+      )}
     </div>
   );
 }

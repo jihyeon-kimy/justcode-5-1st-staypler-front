@@ -48,6 +48,7 @@ function SelectType() {
           header="스테이 유형"
           onClose={closeCheckboxHandler}
           type="type"
+          submitBtn="top"
         >
           <CheckList
             checkList={ROOM_TYPE_LIST}
