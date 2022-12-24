@@ -24,7 +24,9 @@ function CheckList(props) {
                 htmlFor={item.name}
                 id={item.name}
                 name={props.type}
-                defaultChecked={queryParams.get(props.type).includes(item.name)}
+                defaultChecked={queryParams
+                  .get(props.type)
+                  ?.includes(item.name)}
               />
             </li>
           );
