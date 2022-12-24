@@ -7,7 +7,7 @@ import {
   ModalApplyBtnWrapper,
   ModalTitle,
   ModalBox,
-} from '../../Filter/Filter';
+} from '../Filter';
 const useCounter = () => {
   const [count, setCount] = useState({
     성인: 0,
@@ -29,7 +29,7 @@ const useCounter = () => {
   return { count, plusCount, minusCount };
 };
 
-export default function SelectPeople({ closeHandler }) {
+export default function NumOfPeopleFilter({ closeHandler }) {
   const { count, plusCount, minusCount } = useCounter(0);
 
   const location = useLocation();

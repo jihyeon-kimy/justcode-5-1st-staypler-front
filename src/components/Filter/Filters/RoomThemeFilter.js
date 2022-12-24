@@ -17,7 +17,7 @@ const THEME_LIST = [
   { id: 10, type: '풀빌라', name: '풀빌라' },
 ];
 
-function SelectTheme() {
+function RoomThemeFilter() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const navigate = useNavigate();
@@ -66,4 +66,4 @@ function SelectTheme() {
   );
 }
 
-export default SelectTheme;
+export default RoomThemeFilter;

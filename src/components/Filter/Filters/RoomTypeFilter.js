@@ -1,10 +1,18 @@
 import React, { useState } from 'react';
-import MultiRangeSlider from './MultiRangeSlider';
-import FilterItem from '../FilterItem';
 import SelectModal from '../SelectModal/SelectModal';
+import CheckList from '../CheckList/CheckList';
+import FilterItem from '../FilterItem';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-const SelectPrice = () => {
+const ROOM_TYPE_LIST = [
+  { id: 1, type: '게스트하우스', name: 'Guest_house' },
+  { id: 2, type: '호텔', name: 'Hotel' },
+  { id: 3, type: '민박', name: 'Bed_Breakfast' },
+  { id: 4, type: '펜션', name: 'Pension' },
+  { id: 5, type: '모텔', name: 'Motel' },
+];
+
+function RoomTypeFilter() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const navigate = useNavigate();
@@ -21,36 +29,36 @@ const SelectPrice = () => {
   const submitHandler = event => {
     event.preventDefault();
 
-    let newQuery = {};
-    Array.from(event.target.price).forEach(el => (newQuery[el.id] = el.value));
+    const checkedValues = Array.from(event.target.type)
+      .filter(el => el.checked === true)
+      .map(el => el.id)
+      .toString();
 
-    queryParams.set('min_price', newQuery.min_price);
-    queryParams.set('max_price', newQuery.max_price);
+    queryParams.set('type', checkedValues);
     navigate(`?${queryParams.toString()}`);
     closeCheckboxHandler();
   };
 
   return (
     <div>
-      <FilterItem onClick={toggleCheckboxHandler}>가격 범위</FilterItem>
+      <FilterItem onClick={toggleCheckboxHandler}>스테이 유형</FilterItem>
 
       {visibleCheckBox && (
         <SelectModal
-          header="가격 범위"
+          header="스테이 유형"
           onClose={closeCheckboxHandler}
-          type="price"
-          submitBtn="bottom"
+          type="type"
+          submitBtn="top"
         >
-          <MultiRangeSlider
-            type="price"
+          <CheckList
+            checkList={ROOM_TYPE_LIST}
+            type="type"
             onSubmit={submitHandler}
-            min={0}
-            max={100}
           />
         </SelectModal>
       )}
     </div>
   );
-};
+}
 
-export default SelectPrice;
+export default RoomTypeFilter;
