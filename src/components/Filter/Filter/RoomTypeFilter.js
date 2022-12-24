@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import SelectModal from '../SelectModal/SelectModal';
-import CheckList from '../CheckList/CheckList';
+import CheckList from '../SelectModal/CheckList';
 import FilterItem from '../FilterItem';
 import { useLocation, useNavigate } from 'react-router-dom';
 

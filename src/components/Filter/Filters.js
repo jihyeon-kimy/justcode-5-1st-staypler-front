@@ -1,23 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import SelectPeople from './SelectPeople/SelectPeople';
-import SelectType from './SelectType/SelectType';
-import SelectTheme from './SelectTheme/SelectTheme';
-import SelectPrice from './SelectPrice/SelectPrice';
+import PriceFilter from './Filter/PriceFilter';
+import RoomTypeFilter from './Filter/RoomTypeFilter';
+import RoomThemeFilter from './Filter/RoomThemeFilter';
+import NumOfPeopleFilter from './Filter/NumOfPeopleFilter';
 
-function Filter() {
-  const [countPeopleTitle, setCountPeopleTitle] = useState('인원');
-  const [priceTitle, setPriceTitle] = useState('가격 범위');
-
-  const [currentID, setCurrentID] = useState();
-
-  const clickHandler = id => {
-    setCurrentID(id);
-  };
-  const closeHandler = () => {
-    setCurrentID(false);
-  };
-
+function Filters() {
   return (
     <FilterContainer>
       <RowFilterLine>
@@ -48,34 +36,10 @@ function Filter() {
         </CheckInOut>
       </RowFilterLine>
       <RowFilterLine>
-        <div>
-          <ModalBtnLayer>
-            <ModalBtn onClick={() => clickHandler(0)}>
-              {countPeopleTitle}
-            </ModalBtn>
-            {currentID === 0 && (
-              <SelectPeople
-                closeHandler={closeHandler}
-                setCountPeopleTitle={setCountPeopleTitle}
-                countPeopleTitle={countPeopleTitle}
-              />
-            )}
-          </ModalBtnLayer>
-        </div>
-        <div>
-          <ModalBtnLayer>
-            <ModalBtn onClick={() => clickHandler(1)}>{priceTitle}</ModalBtn>
-            {currentID === 1 && (
-              <SelectPrice
-                closeHandler={closeHandler}
-                setPriceTitle={setPriceTitle}
-                priceTitle={priceTitle}
-              />
-            )}
-          </ModalBtnLayer>
-        </div>
-        <SelectType />
-        <SelectTheme />
+        <NumOfPeopleFilter />
+        <PriceFilter />
+        <RoomTypeFilter />
+        <RoomThemeFilter />
       </RowFilterLine>
       <SearchBtnWrapper>
         <SearchBtn>SEARCH</SearchBtn>
@@ -84,7 +48,7 @@ function Filter() {
   );
 }
 
-export default Filter;
+export default Filters;
 
 const FilterContainer = styled.div`
   margin: 0 auto;

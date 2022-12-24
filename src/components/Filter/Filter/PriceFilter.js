@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import MultiRangeSlider from '../MultiRangeSlider/MultiRangeSlider';
+import MultiRangeSlider from '../SelectModal/MultiRangeSlider';
 import FilterItem from '../FilterItem';
 import SelectModal from '../SelectModal/SelectModal';
 import { useLocation, useNavigate } from 'react-router-dom';

@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-const Order = () => {
+const SortFilter = () => {
   const location = useLocation();
   let [newQuery, setNewQuery] = useState();
 
@@ -93,7 +93,7 @@ const Order = () => {
   );
 };
 
-export default Order;
+export default SortFilter;
 
 const OrderWrapper = styled.div`
   margin-top: 109px;

@@ -7,7 +7,9 @@ import {
   ModalApplyBtnWrapper,
   ModalTitle,
   ModalBox,
-} from '../Filter';
+} from '../Filters';
+import FilterItem from '../FilterItem';
+import SelectModal from '../SelectModal/SelectModal';
 const useCounter = () => {
   const [count, setCount] = useState({
     성인: 0,
@@ -62,39 +64,84 @@ export default function NumOfPeopleFilter({ closeHandler }) {
     }
     setNewQuery(makeNewQuery());
   }, [location]);
+
+  const [visibleCheckBox, setVisibleCheckBox] = useState(false);
+
+  const toggleCheckboxHandler = () => {
+    setVisibleCheckBox(prev => !prev);
+  };
+
+  const closeCheckboxHandler = () => {
+    setVisibleCheckBox(false);
+  };
+
+  const submitHandler = () => {};
+
   return (
-    <ModalBox>
-      <ModalTitle>
-        인원
-        <AiOutlineClose onClick={closeHandler} />
-      </ModalTitle>
-      <div>
-        {PEOPLE_DATA &&
-          PEOPLE_DATA.map((item, idx) => {
-            return (
-              <PeopleCounter key={idx}>
-                <span>
-                  {item.type}
-                  <p>{item.age}</p>
-                </span>
-                <NumberCount>
-                  <ButtonMinus onClick={() => minusCount(item.type)} />
-                  <InputNum>
-                    <input type="number" value={count[item.type]} />
-                    <span>명</span>
-                  </InputNum>
-                  <ButtonPlus onClick={() => plusCount(item.type)} />
-                </NumberCount>
-              </PeopleCounter>
-            );
-          })}
-      </div>
-      <ModalApplyBtnWrapper>
-        <Link to={`/findstay?${newQuery}max_limit=${sumCount}`}>
-          <ModalApplyBtn onClick={closeHandler}>적용하기</ModalApplyBtn>
-        </Link>
-      </ModalApplyBtnWrapper>
-    </ModalBox>
+    <div>
+      <FilterItem onClick={toggleCheckboxHandler}>인원</FilterItem>
+
+      {visibleCheckBox && (
+        <SelectModal
+          header="가격 범위"
+          onClose={closeCheckboxHandler}
+          type="price"
+          submitBtn="bottom"
+        >
+          {PEOPLE_DATA &&
+            PEOPLE_DATA.map((item, idx) => {
+              return (
+                <PeopleCounter key={idx}>
+                  <span>
+                    {item.type}
+                    <p>{item.age}</p>
+                  </span>
+                  <NumberCount>
+                    <ButtonMinus onClick={() => minusCount(item.type)} />
+                    <InputNum>
+                      <input type="number" value={count[item.type]} />
+                      <span>명</span>
+                    </InputNum>
+                    <ButtonPlus onClick={() => plusCount(item.type)} />
+                  </NumberCount>
+                </PeopleCounter>
+              );
+            })}
+        </SelectModal>
+      )}
+    </div>
+    // <ModalBox>
+    //   <ModalTitle>
+    //     인원
+    //     <AiOutlineClose onClick={closeHandler} />
+    //   </ModalTitle>
+    //   <div>
+    //     {PEOPLE_DATA &&
+    //       PEOPLE_DATA.map((item, idx) => {
+    //         return (
+    //           <PeopleCounter key={idx}>
+    //             <span>
+    //               {item.type}
+    //               <p>{item.age}</p>
+    //             </span>
+    //             <NumberCount>
+    //               <ButtonMinus onClick={() => minusCount(item.type)} />
+    //               <InputNum>
+    //                 <input type="number" value={count[item.type]} />
+    //                 <span>명</span>
+    //               </InputNum>
+    //               <ButtonPlus onClick={() => plusCount(item.type)} />
+    //             </NumberCount>
+    //           </PeopleCounter>
+    //         );
+    //       })}
+    //   </div>
+    //   <ModalApplyBtnWrapper>
+    //     <Link to={`/findstay?${newQuery}max_limit=${sumCount}`}>
+    //       <ModalApplyBtn onClick={closeHandler}>적용하기</ModalApplyBtn>
+    //     </Link>
+    //   </ModalApplyBtnWrapper>
+    // </ModalBox>
   );
 }
 const PeopleCounter = styled.div`
