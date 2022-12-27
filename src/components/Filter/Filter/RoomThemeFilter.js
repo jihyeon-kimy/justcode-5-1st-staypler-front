@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import CheckList from '../SelectModal/CheckList';
 import FilterItem from '../FilterItem';
@@ -17,19 +17,11 @@ const THEME_LIST = [
   { id: 10, type: '풀빌라', name: '풀빌라' },
 ];
 
-function RoomThemeFilter() {
+function RoomThemeFilter(props) {
+  const filterType = 'theme';
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const navigate = useNavigate();
-  const [visibleCheckBox, setVisibleCheckBox] = useState(false);
-
-  const toggleCheckboxHandler = () => {
-    setVisibleCheckBox(prev => !prev);
-  };
-
-  const closeCheckboxHandler = () => {
-    setVisibleCheckBox(false);
-  };
 
   const submitHandler = event => {
     event.preventDefault();
@@ -41,23 +33,31 @@ function RoomThemeFilter() {
 
     queryParams.set('theme', checkedValues);
     navigate(`?${queryParams.toString()}`);
-    closeCheckboxHandler();
+    props.onClick(filterType);
   };
 
   return (
     <div>
-      <FilterItem onClick={toggleCheckboxHandler}>테마</FilterItem>
+      <FilterItem
+        onClick={() => {
+          props.onClick(filterType);
+        }}
+      >
+        테마
+      </FilterItem>
 
-      {visibleCheckBox && (
+      {props.selectedFilter === filterType && (
         <SelectModal
           header="테마"
-          onClose={closeCheckboxHandler}
-          type="theme"
+          onClose={() => {
+            props.onClick(filterType);
+          }}
+          type={filterType}
           submitBtn="top"
         >
           <CheckList
             checkList={THEME_LIST}
-            type="theme"
+            type={filterType}
             onSubmit={submitHandler}
           />
         </SelectModal>

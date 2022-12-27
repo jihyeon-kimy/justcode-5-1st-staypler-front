@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import SelectModal from '../SelectModal/SelectModal';
 import CheckList from '../SelectModal/CheckList';
 import FilterItem from '../FilterItem';
@@ -12,19 +12,11 @@ const ROOM_TYPE_LIST = [
   { id: 5, type: '모텔', name: 'Motel' },
 ];
 
-function RoomTypeFilter() {
+function RoomTypeFilter(props) {
+  const filterType = 'type';
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const navigate = useNavigate();
-  const [visibleCheckBox, setVisibleCheckBox] = useState(false);
-
-  const toggleCheckboxHandler = () => {
-    setVisibleCheckBox(prev => !prev);
-  };
-
-  const closeCheckboxHandler = () => {
-    setVisibleCheckBox(false);
-  };
 
   const submitHandler = event => {
     event.preventDefault();
@@ -36,23 +28,31 @@ function RoomTypeFilter() {
 
     queryParams.set('type', checkedValues);
     navigate(`?${queryParams.toString()}`);
-    closeCheckboxHandler();
+    props.onClick(filterType);
   };
 
   return (
     <div>
-      <FilterItem onClick={toggleCheckboxHandler}>스테이 유형</FilterItem>
+      <FilterItem
+        onClick={() => {
+          props.onClick(filterType);
+        }}
+      >
+        스테이 유형
+      </FilterItem>
 
-      {visibleCheckBox && (
+      {props.selectedFilter === filterType && (
         <SelectModal
           header="스테이 유형"
-          onClose={closeCheckboxHandler}
-          type="type"
+          onClose={() => {
+            props.onClick(filterType);
+          }}
+          type={filterType}
           submitBtn="top"
         >
           <CheckList
             checkList={ROOM_TYPE_LIST}
-            type="type"
+            type={filterType}
             onSubmit={submitHandler}
           />
         </SelectModal>
