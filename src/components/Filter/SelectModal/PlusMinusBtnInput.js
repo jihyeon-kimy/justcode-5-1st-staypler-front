@@ -18,7 +18,7 @@ function PlusMinusBtnInput(props) {
   return (
     <div className={css.wrapper}>
       <div className={css.title}>
-        <label id={props.type}>{props.type}</label>
+        <label htmlFor={props.type}>{props.type}</label>
         <p>{props?.desc}</p>
       </div>
       <div className={css.counter}>

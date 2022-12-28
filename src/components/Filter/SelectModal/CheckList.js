@@ -16,12 +16,11 @@ function CheckList(props) {
         {props.checkList.map(item => {
           return (
             <li key={item.id} className={css.item}>
-              <label id={item.name} value={item.name}>
+              <label htmlFor={item.name} value={item.name}>
                 {item.type}
               </label>
               <input
                 type="checkbox"
-                htmlFor={item.name}
                 id={item.name}
                 name={props.type}
                 defaultChecked={queryParams
