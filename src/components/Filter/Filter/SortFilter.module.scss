@@ -1,0 +1,23 @@
+.sort-filter {
+  border-bottom: 2px solid #000;
+  text-align: end;
+  padding: 6rem 0 1rem;
+}
+
+.tag {
+  color: rgb(172, 167, 167);
+  cursor: pointer;
+  svg {
+    position: relative;
+    top: 2px;
+  }
+}
+
+[type='radio'] {
+  vertical-align: middle;
+  appearance: none;
+}
+
+[type='radio']:checked + .tag {
+  color: #000;
+}

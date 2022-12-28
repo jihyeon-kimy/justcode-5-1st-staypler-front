@@ -2,13 +2,13 @@ import React, { useState, useEffect, useContext } from 'react';
 import css from './Findstay.module.scss';
 import PageHeader from '../../components/PageHeader/PageHeader';
 import { useLocation } from 'react-router-dom';
-import Filter from './Filter/Filter';
-import Order from './Filter/Order/Order';
+import Filters from '../../components/Filter/Filters';
 import AuthContext from '../../store/auth-context';
 import useHttp from '../../hooks/use-http';
 import { rooms } from '../../lib/room-api';
 import LoadingSpinner from '../../components/UI/LoadingSpinner/LoadingSpinner';
 import RoomList from '../../components/Rooms/RoomList';
+import SortFilter from '../../components/Filter/Filter/SortFilter';
 
 function Findstay() {
   const location = useLocation();
@@ -75,8 +75,8 @@ function Findstay() {
         url="/findstay"
       />
 
-      <Filter />
-      <Order />
+      <Filters />
+      <SortFilter />
 
       {loadedRoomList}
     </div>
