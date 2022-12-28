@@ -31,6 +31,7 @@ function Filters() {
           onClick={toggleSelectModalHandler}
           selectedFilter={selectedFilter}
           stayInputRef={stayInputRef}
+          onSearch={searchHandler}
         />
       </div>
 

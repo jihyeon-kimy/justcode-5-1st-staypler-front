@@ -4,6 +4,12 @@ import FilterItem from '../FilterItem';
 import css from './WhenWhereFilter.module.scss';
 
 function WhenWhereFilter(props) {
+  const SearchHandler = e => {
+    if (e.key === 'Enter') {
+      props.onSearch();
+    }
+  };
+
   return (
     <>
       <label className={css.label}>여행지/숙소</label>
@@ -11,6 +17,7 @@ function WhenWhereFilter(props) {
         type="text"
         className={css['stay-input']}
         ref={props.stayInputRef}
+        onKeyDown={SearchHandler}
       />
       <button
         className={css['stay-search-btn']}
