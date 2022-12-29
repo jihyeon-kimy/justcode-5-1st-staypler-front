@@ -40,8 +40,8 @@ function NumOfPeopleFilter(props) {
           type={filterType}
           submitBtn="bottom"
         >
-          <form onSubmit={submitHandler} id="NumOfPeople">
-            <PlusMinusBtnInput type="성인" name="NumOfPeople" />
+          <form onSubmit={submitHandler} id={filterType}>
+            <PlusMinusBtnInput type="성인" name={filterType} />
             <PlusMinusBtnInput
               type="아동"
               desc="24개월~12개월"

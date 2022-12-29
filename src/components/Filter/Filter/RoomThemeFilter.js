@@ -23,6 +23,14 @@ function RoomThemeFilter(props) {
   const queryParams = new URLSearchParams(location.search);
   const navigate = useNavigate();
 
+  let checkedItems = queryParams.get(filterType);
+  const checkedItemsToArray = queryParams.get(filterType)?.split(',');
+  if (checkedItemsToArray?.length > 1) {
+    checkedItems = `${checkedItemsToArray[0]} 외${
+      checkedItemsToArray?.length - 1
+    } `;
+  }
+
   const submitHandler = event => {
     event.preventDefault();
 
@@ -31,7 +39,7 @@ function RoomThemeFilter(props) {
       .map(el => el.id)
       .toString();
 
-    queryParams.set('theme', checkedValues);
+    queryParams.set(filterType, checkedValues);
     navigate(`?${queryParams.toString()}`);
     props.onClick(filterType);
   };
@@ -43,7 +51,7 @@ function RoomThemeFilter(props) {
           props.onClick(filterType);
         }}
       >
-        테마
+        {checkedItems || '테마'}
       </FilterItem>
 
       {props.selectedFilter === filterType && (

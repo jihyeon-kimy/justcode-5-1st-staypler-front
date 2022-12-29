@@ -18,6 +18,17 @@ function RoomTypeFilter(props) {
   const queryParams = new URLSearchParams(location.search);
   const navigate = useNavigate();
 
+  const checkedItemsToArray = queryParams.get(filterType)?.split(',') || [];
+  const translateNameToType = ROOM_TYPE_LIST.find(
+    item => item.name === checkedItemsToArray[0]
+  );
+  let checkedItems = translateNameToType?.type;
+  if (checkedItemsToArray?.length > 1) {
+    checkedItems = `${translateNameToType?.type} 외${
+      checkedItemsToArray?.length - 1
+    }`;
+  }
+
   const submitHandler = event => {
     event.preventDefault();
 
@@ -26,7 +37,7 @@ function RoomTypeFilter(props) {
       .map(el => el.id)
       .toString();
 
-    queryParams.set('type', checkedValues);
+    queryParams.set(filterType, checkedValues);
     navigate(`?${queryParams.toString()}`);
     props.onClick(filterType);
   };
@@ -38,7 +49,7 @@ function RoomTypeFilter(props) {
           props.onClick(filterType);
         }}
       >
-        스테이 유형
+        {checkedItems || '스테이 유형'}
       </FilterItem>
 
       {props.selectedFilter === filterType && (

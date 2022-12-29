@@ -1,9 +1,24 @@
+import { useLocation } from 'react-router-dom';
 import WhenModal from '../../SearchModal/WhenModal/WhenModal';
 import WhereModal from '../../SearchModal/WhereModal/WhereModal';
 import FilterItem from '../FilterItem';
 import css from './WhenWhereFilter.module.scss';
 
 function WhenWhereFilter(props) {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+
+  let checkedDates = { start_date: '', end_date: '' };
+  if (queryParams.has('start_date') && queryParams.has('end_date')) {
+    checkedDates = {
+      start_date: queryParams.get('start_date'),
+      end_date:
+        queryParams.get('end_date') === 'null'
+          ? ''
+          : queryParams.get('end_date'),
+    };
+  }
+
   const SearchHandler = e => {
     if (e.key === 'Enter') {
       props.onSearch();
@@ -12,6 +27,21 @@ function WhenWhereFilter(props) {
 
   return (
     <>
+      {props.selectedFilter === 'where' && (
+        <WhereModal
+          onClose={() => {
+            props.onClick('where');
+          }}
+        />
+      )}
+      {props.selectedFilter === 'when' && (
+        <WhenModal
+          onClose={() => {
+            props.onClick('when');
+          }}
+        />
+      )}
+
       <label className={css.label}>여행지/숙소</label>
       <input
         type="text"
@@ -28,21 +58,13 @@ function WhenWhereFilter(props) {
       >
         해외전체
       </button>
-      {props.selectedFilter === 'where' && (
-        <WhereModal
-          onClose={() => {
-            props.onClick('where');
-          }}
-        />
-      )}
-
       <span className={css.label}>체크인</span>
       <FilterItem
         onClick={() => {
           props.onClick('when');
         }}
       >
-        체크인
+        {checkedDates.start_date || '체크인'}
       </FilterItem>
       <span className={css.label}>체크아웃</span>
       <FilterItem
@@ -50,15 +72,8 @@ function WhenWhereFilter(props) {
           props.onClick('when');
         }}
       >
-        체크아웃
+        {checkedDates.end_date || '체크아웃'}
       </FilterItem>
-      {props.selectedFilter === 'when' && (
-        <WhenModal
-          onClose={() => {
-            props.onClick('when');
-          }}
-        />
-      )}
     </>
   );
 }
