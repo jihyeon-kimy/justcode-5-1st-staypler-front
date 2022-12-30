@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import css from './Findstay.module.scss';
 import PageHeader from '../../components/PageHeader/PageHeader';
 import { useLocation } from 'react-router-dom';
