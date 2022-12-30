@@ -3,7 +3,10 @@ import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 
 function FilterItem(props) {
   return (
-    <button className={css.item} onClick={props.onClick}>
+    <button
+      className={`${css.item} ${props.className}`}
+      onClick={props.onClick}
+    >
       <p>{props.children}</p>
       <MdOutlineKeyboardArrowDown />
     </button>

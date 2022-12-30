@@ -1,12 +1,31 @@
+.container {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #e4e4e4;
+  border-top: 2px solid #000;
+}
+
+.row {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  padding: 1rem 0;
+}
+
 .label {
+  min-width: 3.5rem;
   font-weight: 700;
   font-size: 0.9rem;
   margin-right: 0.5rem;
 }
 
+.stay-label {
+  min-width: 5rem;
+}
+
 .stay-input {
   height: 2.5rem;
-  width: 10rem;
+  width: 100%;
   padding: 0.5rem 1rem;
   margin-right: 1rem;
   border: 1px solid #e4e4e4;
@@ -16,9 +35,52 @@
 
 .stay-search-btn {
   height: 2.5rem;
+  min-width: 6rem;
   margin-right: 3rem;
-  padding: 0.5rem 1.5rem;
+  padding: 0.5rem 1rem;
   background-color: #f2f2f2;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.checkinout-filter {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .container {
+    display: block;
+    border-bottom: none;
+  }
+
+  .stay-search-btn {
+    margin-right: 0;
+  }
+
+  .stay-input {
+    width: 70%;
+  }
+
+  .row {
+    width: 100%;
+    border-bottom: 1px solid #e4e4e4;
+    justify-content: space-between;
+
+    span {
+      display: none;
+    }
+  }
+
+  .filter {
+    width: 47%;
+    margin: 0;
+  }
+
+  .checkinout-filter {
+    background-color: white;
+
+    svg {
+      display: block;
+    }
+  }
 }

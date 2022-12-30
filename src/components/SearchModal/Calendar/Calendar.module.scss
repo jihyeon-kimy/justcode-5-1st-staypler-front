@@ -60,3 +60,24 @@
   background-color: black;
   color: whitesmoke;
 }
+
+@media (max-width: 1199px) {
+  .next {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .calendarWrapper {
+    padding: 10px 0;
+  }
+
+  .lastDays,
+  .days,
+  .checkInDay,
+  .checkOutDay,
+  .onDay,
+  .tempoCheckOutDay {
+    padding: 10px 10px;
+  }
+}

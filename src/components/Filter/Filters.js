@@ -26,14 +26,12 @@ function Filters() {
 
   return (
     <div>
-      <div className={css['filter-wrapper']}>
-        <WhenWhereFilter
-          onClick={toggleSelectModalHandler}
-          selectedFilter={selectedFilter}
-          stayInputRef={stayInputRef}
-          onSearch={searchHandler}
-        />
-      </div>
+      <WhenWhereFilter
+        onClick={toggleSelectModalHandler}
+        selectedFilter={selectedFilter}
+        stayInputRef={stayInputRef}
+        onSearch={searchHandler}
+      />
 
       <div className={css['filter-wrapper']}>
         <NumOfPeopleFilter

@@ -42,38 +42,49 @@ function WhenWhereFilter(props) {
         />
       )}
 
-      <label className={css.label}>여행지/숙소</label>
-      <input
-        type="text"
-        className={css['stay-input']}
-        ref={props.stayInputRef}
-        onKeyDown={SearchHandler}
-      />
-      <button
-        className={css['stay-search-btn']}
-        type="button"
-        onClick={() => {
-          props.onClick('where');
-        }}
-      >
-        해외전체
-      </button>
-      <span className={css.label}>체크인</span>
-      <FilterItem
-        onClick={() => {
-          props.onClick('when');
-        }}
-      >
-        {checkedDates.start_date || '체크인'}
-      </FilterItem>
-      <span className={css.label}>체크아웃</span>
-      <FilterItem
-        onClick={() => {
-          props.onClick('when');
-        }}
-      >
-        {checkedDates.end_date || '체크아웃'}
-      </FilterItem>
+      <div className={css.container}>
+        <div className={css.row}>
+          <label className={`${css.label} ${css['stay-label']} `}>
+            여행지/숙소
+          </label>
+          <input
+            type="text"
+            className={css['stay-input']}
+            ref={props.stayInputRef}
+            onKeyDown={SearchHandler}
+          />
+          <button
+            className={css['stay-search-btn']}
+            type="button"
+            onClick={() => {
+              props.onClick('where');
+            }}
+          >
+            해외전체
+          </button>
+        </div>
+
+        <div className={css.row}>
+          <span className={css.label}>체크인</span>
+          <FilterItem
+            className={css['checkinout-filter']}
+            onClick={() => {
+              props.onClick('when');
+            }}
+          >
+            {checkedDates.start_date || '체크인'}
+          </FilterItem>
+          <span className={css.label}>체크아웃</span>
+          <FilterItem
+            className={css['checkinout-filter']}
+            onClick={() => {
+              props.onClick('when');
+            }}
+          >
+            {checkedDates.end_date || '체크아웃'}
+          </FilterItem>
+        </div>
+      </div>
     </>
   );
 }

@@ -1,8 +1,11 @@
 .modal {
   position: absolute;
-  margin-top: 1rem;
-  padding: 1.5rem;
   z-index: 5;
+}
+
+.content {
+  margin-top: 2rem;
+  padding: 1.5rem;
   background-color: white;
   border: 1px solid #e4e4e4;
   border-radius: 5px;
@@ -27,4 +30,16 @@
   width: 100%;
   padding: 0.4rem;
   box-shadow: none;
+}
+
+@media (max-width: 768px) {
+  .modal {
+    left: 0;
+    width: 100%;
+    padding: 0 1.5rem;
+  }
+
+  .content {
+    width: 100%;
+  }
 }

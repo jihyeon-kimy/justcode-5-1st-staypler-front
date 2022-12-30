@@ -16,3 +16,14 @@
     font-size: 1.3rem;
   }
 }
+
+@media (max-width: 768px) {
+  .item {
+    width: auto;
+    background-color: #f2f2f2;
+
+    svg {
+      display: none;
+    }
+  }
+}
