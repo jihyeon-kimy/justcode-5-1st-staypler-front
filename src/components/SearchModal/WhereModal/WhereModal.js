@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { AiOutlineSearch } from 'react-icons/ai';
 import css from './WhereModal.module.scss';
 import SearchModalLayout from '../SearchModalLayout';
@@ -44,6 +44,8 @@ const regionsList = [
 ];
 
 function WhereModal({ onClose }) {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
   const navigate = useNavigate();
   const [selectedRegion, setSelectedRegion] = useState('');
 
@@ -52,7 +54,8 @@ function WhereModal({ onClose }) {
   };
 
   const searchLocationHandler = () => {
-    navigate(`/findstay?province=${selectedRegion}`);
+    queryParams.set('province', selectedRegion);
+    navigate(`/findstay?${queryParams.toString()}`);
     onClose();
   };
 

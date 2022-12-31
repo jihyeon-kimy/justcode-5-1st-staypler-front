@@ -8,6 +8,7 @@ function ButtonRound(props) {
       className={`${css.button} ${props.className}`}
       onClick={props.onClick}
       disabled={props.disabled}
+      form={props?.form}
     >
       {props.children}
     </button>

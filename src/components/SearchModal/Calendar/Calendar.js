@@ -170,7 +170,7 @@ function Calendar({
           <tbody>{CalendarArr(thisMonth, thisFirstWeek, thisLastWeek)}</tbody>
         </table>
       </div>
-      <div className={css.calendar}>
+      <div className={`${css.calendar} ${css.next}`}>
         <div className={css.month}>{nextMonth.format('M월')}</div>
         <table className={css.calendarTable}>
           <thead>

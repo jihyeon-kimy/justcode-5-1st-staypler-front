@@ -3,10 +3,12 @@ import css from './WhenModal.module.scss';
 import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
 import moment from 'moment';
 import Calendar from '../Calendar/Calendar';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import SearchModalLayout from '../SearchModalLayout';
 
 function WhenModal({ onClose }) {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
   const navigate = useNavigate();
   const [stateMoment, setStateMoment] = useState(moment());
 
@@ -16,7 +18,6 @@ function WhenModal({ onClose }) {
 
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
-  let query = `start_date=${startDate}&end_date=${endDate}`;
 
   const checkDateHandler = checkedDay => {
     // 선택된 체크인 날짜가 없는 경우
@@ -68,7 +69,9 @@ function WhenModal({ onClose }) {
   };
 
   const searchDateHandler = () => {
-    navigate(`/findstay?${query}`);
+    queryParams.set('start_date', startDate);
+    queryParams.set('end_date', endDate);
+    navigate(`/findstay?${queryParams.toString()}`);
     onClose();
   };
 

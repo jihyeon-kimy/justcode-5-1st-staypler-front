@@ -1,0 +1,15 @@
+.filter-wrapper {
+  display: flex;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid #e4e4e4;
+}
+
+.search-btn {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: none;
+  padding: 0.7rem 3rem;
+  margin-top: 2rem;
+}

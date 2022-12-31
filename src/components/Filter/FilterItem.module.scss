@@ -1,0 +1,29 @@
+.item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 2.5rem;
+  width: 10rem;
+  padding: 0.5rem 1rem;
+  margin-right: 1rem;
+  border: 1px solid #e4e4e4;
+  border-radius: 5px;
+  cursor: pointer;
+
+  svg {
+    position: absolute;
+    right: 0.2rem;
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .item {
+    width: auto;
+    background-color: #f2f2f2;
+
+    svg {
+      display: none;
+    }
+  }
+}
